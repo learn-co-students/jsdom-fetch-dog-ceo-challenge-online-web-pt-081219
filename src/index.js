@@ -1,8 +1,13 @@
-//const breeds = document.getElementsByTagName("li");
+let breeds = [];
 
 document.addEventListener("DOMContentLoaded", function () {
     fetchImages();
     fetchBreeds();
+    let ul = document.getElementById("dog-breeds");
+    let selectBox = document.getElementById("breed-dropdown");
+
+    ul.addEventListener("click", changeColor);
+    selectBox.addEventListener("change", selectBreeds);
 });
 
 function fetchImages() {
@@ -27,24 +32,29 @@ function fetchBreeds() {
     const breedUrl = 'https://dog.ceo/api/breeds/list/all';
     return fetch(breedUrl)
     .then(resp => resp.json())
-    .then(json => renderBreeds(json))
+    .then(json => {
+        breeds = Object.keys(json["message"]);
+        renderBreeds(breeds);
+    })
 }
 
-function renderBreeds(json) {
-    const breeds = document.getElementById("dog-breeds");
+function renderBreeds(breedsArray) {
+    const breedsUl = document.getElementById("dog-breeds");
 
-    let breedsArray = Object.keys(json["message"]);
+    while (breedsUl.firstChild) {
+        breedsUl.removeChild(breedsUl.firstChild);
+    }
 
     for (let i = 0; i < breedsArray.length; i++) {
         const li = document.createElement("li");
         li.innerHTML = `${breedsArray[i]}`;
         li.style.cursor = 'pointer';
-        breeds.appendChild(li);
-        li.addEventListener("click", changeColor);
+        breedsUl.appendChild(li);
     }
 }
 
 function changeColor(event) {
+    console.log("hi");
     let color = event.target.style.color;
     if (color == "red") {
         event.target.style.color = "black";
@@ -52,4 +62,10 @@ function changeColor(event) {
     else {
         event.target.style.color = "red";
     }
+}
+
+function selectBreeds(event) {
+    let letter = event.target.value;
+    let newBreeds = breeds.filter(breed => breed.startsWith(letter));
+    renderBreeds(newBreeds);
 }
