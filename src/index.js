@@ -4,7 +4,7 @@ const breedUrl = 'https://dog.ceo/api/breeds/list/all';
 let breeds = [];
 
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function() {
     const thisDiv = document.querySelector("#dog-image-container")
     const dropdown = document.getElementById("breed-dropdown");
     const thisUl = document.getElementById("dog-breeds");
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
       //v list shit
-    dropdown.addEventListener("change", event => {
+    dropdown.addEventListener("change", (event) => {
         updateBreedList(event.target.value);
     })
     
@@ -44,9 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
             thisLi.innerText = element;
             thisUl.appendChild(thisLi);
     
-            thisLi.addEventListener("click", () => {
+            thisLi.addEventListener("click", function changeColor() {
                 this.style.color = "blue";
-                console.log("click")
             });   
         })
     }
