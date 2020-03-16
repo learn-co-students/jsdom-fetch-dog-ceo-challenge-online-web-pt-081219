@@ -4,11 +4,8 @@ const breedUrl = 'https://dog.ceo/api/breeds/list/all';
 let breeds = [];
 
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function() {
     const thisDiv = document.querySelector("#dog-image-container")
-    const dropdown = document.getElementById("breed-dropdown");
-    const thisUl = document.getElementById("dog-breeds");
-
     fetch(imgUrl)
       .then(resp => resp.json())
       .then(json => function() {
@@ -18,25 +15,26 @@ document.addEventListener("DOMContentLoaded", () => {
             thisDiv.appendChild(x);
         });
       }());
-      //^ image shit
 
+    const dropdown = document.getElementById("breed-dropdown");
+    const thisUl = document.getElementById("dog-breeds");
 
-      //v list shit
-    dropdown.addEventListener("change", event => {
-        updateBreedList(event.target.value);
+    dropdown.addEventListener("change", function(event) {
+        firstLetter = event.target.value;
+        breeds.filter(breed => breed.startsWith(firstLetter))
     })
-    
-    function updateBreedList(firstLetter) {
-        newBreeds = breeds.filter(breed => breed.startsWith(firstLetter));
-        removeChildren(thisUl);
-        setupLi(newBreeds);
-    }
 
-    function removeChildren(element) {
-        while (element.firstChild) {
-            element.removeChild(element.lastChild);
-        }
+    function updateBreedList() {
+        
     }
+    //call on remove children
+    //then use updated breed list to 
+    //use setupLI
+
+    function removeChildren() {
+
+    }
+    //remove each child individually
 
     function setupLi(listOfBreeds) {
         listOfBreeds.forEach(element => {
@@ -44,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
             thisLi.innerText = element;
             thisUl.appendChild(thisLi);
     
-            thisLi.addEventListener("click", () => {
+            thisLi.addEventListener("click", function changeColor() {
                 this.style.color = "blue";
                 console.log("click")
             });   
@@ -53,8 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     fetch(breedUrl)
       .then(resp => resp.json())
-      .then(json => {
+      .then(json => function() {
+        console.log(json);
         breeds = Object.keys(json["message"])
-        setupLi(breeds)
-      })
+      }())
 })
