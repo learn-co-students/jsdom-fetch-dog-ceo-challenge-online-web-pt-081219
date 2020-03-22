@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
 
         function colorChange(event) {
-            event.targer.style.color = 'green'
+            event.target.style.color = 'green'
         }
 
         function getFilterLetter(){
